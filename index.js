@@ -5,6 +5,7 @@ const cors = require("cors");
 
 //import routes
 const authRoute = require("./routes/auth");
+const scoringFootballRoute = require("./routes/scoringFootball");
 
 //connect DB
 mongoose
@@ -22,6 +23,8 @@ app.use(cors());
 app.use(express.json());
 
 //route middleware
+
 app.use("/api/scorer", authRoute);
+app.use("/api/scoring/football", scoringFootballRoute);
 
 app.listen(3000, () => console.log("server Up and running"));
