@@ -2,7 +2,6 @@ const router = require("express").Router();
 const Football = require("../models/Football");
 const Scorer = require("../models/Scorer");
 
-
 router.post("/initiate", async (req, res) => {
     const football = new Football(req.body);
     const scorer = await Scorer.findOne({ _id: req.body.id });
@@ -104,15 +103,15 @@ router.post("/addyellowcard", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     if(req.body.teamname == football.team1.name)
     {
-        football.yellow_card.team1.times = req.body.time;
-        football.yellow_card.team1.player = req.body.player;
+        football.yellow_card.team1.times.push = req.body.time;
+        football.yellow_card.team1.player.push = req.body.player;
         
     }
     else
     {
 
-        football.yellow_card.team2.times = req.body.time;
-        football.yellow_card.team2.player = req.body.player;
+        football.yellow_card.team2.times.push = req.body.time;
+        football.yellow_card.team2.player.push = req.body.player;
     }
     
     try {
@@ -128,15 +127,15 @@ router.post("/addredcard", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     if(req.body.teamname == football.team1.name)
     {
-        football.red_card.team1.times = req.body.time;
-        football.red_card.team1.player = req.body.player;
+        football.red_card.team1.times.push = req.body.time;
+        football.red_card.team1.player.push = req.body.player;
         
     }
     else
     {
 
-        football.red_card.team2.times = req.body.time;
-        football.red_card.team2.player = req.body.player;
+        football.red_card.team2.times.push = req.body.time;
+        football.red_card.team2.player.push = req.body.player;
     }
     
     try {
@@ -193,6 +192,37 @@ router.post("/substitute", async (req, res) => {
         
 
 });
+
+router.get("/getmatchesByscorer", async(req, res) => {
+  
+  
+  const scorer = await Scorer.findOne({ _id: req.body.id });
+  if (!scorer) return res.status(404).send("User does not exist!");
+  const id1 = scorer.football_match.slice();
+  let footballmatch = new Array();
+  let tmp;
+  
+ 
+  try{
+    
+  //console.log(id1[0]);
+     id1.forEach( async(element,index) => {
+
+      const temp = await Football.findOne({ _id: element });
+      footballmatch.push(temp);
+      if(index == id1.length-1)
+        res.send(footballmatch);
+    });
+    console.log(footballmatch);
+  }
+  catch (err) {
+    res.status(400).send(err);
+} 
+    
+  
+});
+
+
 
 
 module.exports = router;
