@@ -27,8 +27,24 @@ router.post("/login", async(req, res) => {
 
     //creat and assign jwt
     const token = jwt.sign({ _id: scorer._id }, "unvunv");
-    res.header("auth-token", token).send(token);
+    const demo_obj = {
+      "auth-token": token,
+      "scorer":scorer
+    }
+    res.send(demo_obj);
+
+  });
+
+router.get("/getscorer", async(req, res) => {
+  const scorer = await Scorer.findOne({ _id: req.body._id });
+  if (!scorer) return res.status(404).send("User does not exist!");
+  res.send(scorer);
 });
+
+
+
+
+
 
 
 router.post("/forgotpassword", async(req, res) => {
