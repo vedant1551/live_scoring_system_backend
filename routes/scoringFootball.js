@@ -1,14 +1,20 @@
 const router = require("express").Router();
 const Football = require("../models/Football");
+const Scorer = require("../models/Scorer");
 
 
 router.post("/initiate", async (req, res) => {
     const football = new Football(req.body);
+    const scorer = await Scorer.findOne({ _id: req.body.id });
+    
     football.status = "not_started";
     try {
       const savedfootball = await football.save();
+      scorer.football_match.push(savedfootball._id);
+      const savedscorer = await scorer.save();
       res.send(savedfootball);
     } catch (err) {
+    
       res.status(400).send(err);
     }
   });

@@ -36,7 +36,13 @@ const scorerschema = new mongoose.Schema({
         max: 10,
         min:10
     
-        }
+        },
+    
+    football_match:[{
+
+                type: String
+    }]    
+
     
 
 
