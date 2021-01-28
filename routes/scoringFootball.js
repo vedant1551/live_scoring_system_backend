@@ -196,24 +196,11 @@ router.post("/substitute", async (req, res) => {
 router.get("/getmatchesByscorer", async(req, res) => {
   
   
-  const scorer = await Scorer.findOne({ _id: req.body.id });
-  if (!scorer) return res.status(404).send("User does not exist!");
-  const id1 = scorer.football_match.slice();
-  let footballmatch = new Array();
-  let tmp;
-  
- 
+  const footballmatch = await Football.find({ scorer_id: req.body.scorer_id });
   try{
     
-  //console.log(id1[0]);
-     id1.forEach( async(element,index) => {
-
-      const temp = await Football.findOne({ _id: element });
-      footballmatch.push(temp);
-      if(index == id1.length-1)
-        res.send(footballmatch);
-    });
-    console.log(footballmatch);
+    res.send(footballmatch);
+     
   }
   catch (err) {
     res.status(400).send(err);
