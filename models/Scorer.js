@@ -37,10 +37,6 @@ const scorerschema = new mongoose.Schema({
         min:10
     
         }
-    
-    
-
-
 });
 
 module.exports = mongoose.model('scorer',scorerschema);

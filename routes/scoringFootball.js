@@ -4,13 +4,13 @@ const Scorer = require("../models/Scorer");
 
 router.post("/initiate", async (req, res) => {
     const football = new Football(req.body);
-    const scorer = await Scorer.findOne({ _id: req.body.id });
+    const scorer = await Scorer.findOne({ _id: req.body.scorer_id });
     
     football.status = "not_started";
     try {
       const savedfootball = await football.save();
-      scorer.football_match.push(savedfootball._id);
-      const savedscorer = await scorer.save();
+      // scorer.football_match.push(savedfootball._id);
+      // const savedscorer = await scorer.save();
       res.send(savedfootball);
     } catch (err) {
     
@@ -193,10 +193,10 @@ router.post("/substitute", async (req, res) => {
 
 });
 
-router.get("/getmatchesByscorer", async(req, res) => {
+router.get("/getmatchesByscorer/:id", async(req, res) => {
   
   
-  const footballmatch = await Football.find({ scorer_id: req.body.scorer_id });
+  const footballmatch = await Football.find({ scorer_id: req.params.id });
   try{
     
     res.send(footballmatch);

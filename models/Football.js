@@ -34,13 +34,12 @@ const footballschema = new mongoose.Schema({
           type: String 
 
     },
-    
     scorer_id:{
 
         type: String,
         required: true 
 
-  },
+    },
     date: {
 
         type: Date,
