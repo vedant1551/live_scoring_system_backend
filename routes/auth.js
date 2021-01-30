@@ -8,6 +8,9 @@ router.get("/", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
+  const scorer1 = await Scorer.findOne({ email: req.body.email });
+  if (scorer1) return res.status(404).send("User already exist!");
+
   const scorer = new Scorer(req.body);
 
   try {
