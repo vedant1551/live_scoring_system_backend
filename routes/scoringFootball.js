@@ -4,14 +4,11 @@ const Scorer = require("../models/Scorer");
 
 router.post("/initiate", async (req, res) => {
     const football = new Football(req.body);
-    const scorer = await Scorer.findOne({ _id: req.body.scorer_id });
     
     football.status = "not_started";
     try {
       const savedfootball = await football.save();
-      // scorer.football_match.push(savedfootball._id);
-      // const savedscorer = await scorer.save();
-      res.send(savedfootball);
+      res.json(savedfootball);
     } catch (err) {
     
       res.status(400).send(err);
@@ -19,7 +16,7 @@ router.post("/initiate", async (req, res) => {
   });
   
 
-router.post("/startgame", async (req, res) => {
+router.put("/startgame", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     football.status = "live";
     football.team1.playing11 = req.body.team2_playing11;
@@ -32,14 +29,14 @@ router.post("/startgame", async (req, res) => {
     football.Date = date_ob;
     try {
       const savedfootball = await football.save();
-      res.send(savedfootball);
+      res.json(savedfootball);
     } catch (err) {
       res.status(400).send(err);
     }
   });
 
 
-router.post("/addgoal", async (req, res) => {
+router.put("/addgoal", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     if(req.body.teamname == football.team1.name)
     {
@@ -60,13 +57,13 @@ router.post("/addgoal", async (req, res) => {
 
     try {
       const savedfootball = await football.save();
-      res.send(savedfootball);
+      res.json(savedfootball);
     } catch (err) {
       res.status(400).send(err);
     }
   });
 
-router.post("/undogoal", async (req, res) => {
+router.put("/undogoal", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     if( (football.score.team1.goal == 0) && (football.score.team1.goal == 0) )
     {
@@ -93,13 +90,13 @@ router.post("/undogoal", async (req, res) => {
   
     try {
       const savedfootball = await football.save();
-      res.send(savedfootball);
+      res.json(savedfootball);
     } catch (err) {
       res.status(400).send(err);
     }
   });
 
-router.post("/addyellowcard", async (req, res) => {
+router.put("/addyellowcard", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     if(req.body.teamname == football.team1.name)
     {
@@ -116,14 +113,14 @@ router.post("/addyellowcard", async (req, res) => {
     
     try {
       const savedfootball = await football.save();
-      res.send(savedfootball);
+      res.json(savedfootball);
     } catch (err) {
       res.status(400).send(err);
     }
   });
 
 
-router.post("/addredcard", async (req, res) => {
+router.put("/addredcard", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     if(req.body.teamname == football.team1.name)
     {
@@ -140,13 +137,13 @@ router.post("/addredcard", async (req, res) => {
     
     try {
       const savedfootball = await football.save();
-      res.send(savedfootball);
+      res.json(savedfootball);
     } catch (err) {
       res.status(400).send(err);
     }
   });
 
-router.post("/substitute", async (req, res) => {
+router.put("/substitute", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     if(req.body.teamname == football.team1.name)
     {
@@ -165,13 +162,13 @@ router.post("/substitute", async (req, res) => {
     
     try {
       const savedfootball = await football.save();
-      res.send(savedfootball);
+      res.json(savedfootball);
     } catch (err) {
       res.status(400).send(err);
     }
   });
 
-  router.post("/finish", async (req, res) => {
+  router.put("/finish", async (req, res) => {
     const football = await Football.findOne({ _id: req.body._id });
     football.status = "finished";
     const a = football.score.team1.goal;
@@ -185,7 +182,7 @@ router.post("/substitute", async (req, res) => {
       
          try {
             const savedfootball = await football.save();
-            res.send(savedfootball);
+            res.json(savedfootball);
           } catch (err) {
             res.status(400).send(err);
           }
@@ -199,7 +196,7 @@ router.get("/getmatchesByscorer/:id", async(req, res) => {
   const footballmatch = await Football.find({ scorer_id: req.params.id });
   try{
     
-    res.send(footballmatch);
+    res.json(footballmatch);
      
   }
   catch (err) {
