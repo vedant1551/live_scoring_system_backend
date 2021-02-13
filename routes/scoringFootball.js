@@ -207,6 +207,34 @@ router.get("/getmatchesByscorer/:id", async(req, res) => {
 });
 
 
-
+router.get("/getmatch/:id", async(req, res) => {
+  
+  
+  const footballmatch = await Football.find({ _id: req.params.id });
+  try{
+    
+    res.json(footballmatch);
+     
+  }
+  catch (err) {
+    res.status(400).send(err);
+} 
+    
+  
+});
+                                                                                                                           
+router.delete("/deletematch/:id", async(req, res) => {
+  
+  
+  try{
+    
+    await Football.deleteOne({ _id: req.params.id });
+   res.send("Deleted succesfully!!");
+  }                                                                                
+  catch (err) {                                                         
+    res.status(400).send(err);                                          
+}                                                                     
+                                                                           
+});                                                                      
 
 module.exports = router;
