@@ -20,6 +20,7 @@ router.put("/startgame", async (req, res) => {
 
   football.team1.playing11 = req.body.team1_playing11;
   football.team2.playing11 = req.body.team2_playing11;
+  football.half = 1;
 
   football.team1.substitutes = req.body.team1_substitutes;
   football.team2.substitutes = req.body.team2_substitutes;
@@ -50,6 +51,32 @@ router.put("/addgoal", async (req, res) => {
     football.score.team2.times.push(req.body.time);
   }
   football.score.score_sequence.push(req.body.teamname);
+
+  try {
+    const savedfootball = await football.save();
+    res.status(200).json(savedfootball);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+router.put("/halftime", async (req, res) => {
+  const football = await Football.findOne({ _id: req.body._id });
+  football.half = 3;
+  try {
+    const savedfootball = await football.save();
+    res.status(200).json(savedfootball);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+
+router.put("/startsecondhalf", async (req, res) => {
+  const football = await Football.findOne({ _id: req.body._id });
+  football.half = 2;
+  const date_ob = new Date();
+  football.date = date_ob;
 
   try {
     const savedfootball = await football.save();

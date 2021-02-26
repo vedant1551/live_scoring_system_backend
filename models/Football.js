@@ -20,7 +20,14 @@ const footballschema = new mongoose.Schema({
     min: 6
 
     },
+    half: {
 
+        type: Number,
+        required: true,
+        min: 1,
+        max: 3
+    
+        },
     game_time: {
 
     type: Number,
