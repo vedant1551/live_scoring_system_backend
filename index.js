@@ -6,7 +6,7 @@ const cors = require("cors");
 //import routes
 const authRoute = require("./routes/auth");
 const scoringFootballRoute = require("./routes/scoringFootball");
-
+const scoringVolleyballRoute = require("./routes/scoringVolleyball");
 //connect DB
 mongoose
   .connect(
@@ -26,5 +26,6 @@ app.use(express.json());
 
 app.use("/api/scorer", authRoute);
 app.use("/api/scoring/football", scoringFootballRoute);
+app.use("/api/scoring/volleyball",scoringVolleyballRoute);
 
 app.listen(3000, () => console.log("server Up and running"));
