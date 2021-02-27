@@ -71,7 +71,6 @@ router.put("/halftime", async (req, res) => {
   }
 });
 
-
 router.put("/startsecondhalf", async (req, res) => {
   const football = await Football.findOne({ _id: req.body._id });
   football.half = 2;
@@ -114,11 +113,11 @@ router.put("/undogoal", async (req, res) => {
 router.put("/addyellowcard", async (req, res) => {
   const football = await Football.findOne({ _id: req.body._id });
   if (req.body.teamname == football.team1.name) {
-    football.yellow_card.team1.times.push = req.body.time;
-    football.yellow_card.team1.player.push = req.body.player;
+    football.yellow_card.team1.times.push(req.body.time);
+    football.yellow_card.team1.player.push(req.body.player);
   } else {
-    football.yellow_card.team2.times.push = req.body.time;
-    football.yellow_card.team2.player.push = req.body.player;
+    football.yellow_card.team2.times.push(req.body.time);
+    football.yellow_card.team2.player.push(req.body.player);
   }
 
   try {
@@ -132,11 +131,11 @@ router.put("/addyellowcard", async (req, res) => {
 router.put("/addredcard", async (req, res) => {
   const football = await Football.findOne({ _id: req.body._id });
   if (req.body.teamname == football.team1.name) {
-    football.red_card.team1.times.push = req.body.time;
-    football.red_card.team1.player.push = req.body.player;
+    football.red_card.team1.times.push(req.body.time);
+    football.red_card.team1.player.push(req.body.player);
   } else {
-    football.red_card.team2.times.push = req.body.time;
-    football.red_card.team2.player.push = req.body.player;
+    football.red_card.team2.times.push(req.body.time);
+    football.red_card.team2.player.push(req.body.player);
   }
 
   try {
