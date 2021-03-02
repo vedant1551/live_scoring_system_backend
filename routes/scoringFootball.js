@@ -15,7 +15,7 @@ router.post("/initiate", async (req, res) => {
 });
 
 router.put("/startgame", async (req, res) => {
-  const football = await Football.findOne({ _id: req.body._id });
+  const football = await Volleyball.findOne({ _id: req.body._id });
   football.status = "live";
 
   football.team1.playing11 = req.body.team1_playing11;

@@ -23,7 +23,7 @@ router.post("/initiate", async (req, res) => {
 });
 
 router.put("/startgame", async (req, res) => {
-  const volleyball = await Football.findOne({ _id: req.body._id });
+  const volleyball = await Volleyball.findOne({ _id: req.body._id });
   volleyball.status = "live";
   const a = new Array();
   volleyball.score.score_sequence.push(a);
