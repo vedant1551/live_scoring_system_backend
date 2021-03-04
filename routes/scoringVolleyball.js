@@ -45,15 +45,15 @@ router.put("/startgame", async (req, res) => {
 });
 
 router.put("/addpoint", async (req, res) => {
-  const volleyball = await Football.findOne({ _id: req.body._id });
+  const volleyball = await Volleyball.findOne({ _id: req.body._id });
   if (req.body.teamname == volleyball.team1.name) {
-    const last = volleyball.score.team1.points.length() - 1;
+    const last = volleyball.score.team1.points.length - 1;
     volleyball.score.team1.points[last] += 1;
   } else {
-    const last = volleyball.score.team1.points.length() - 1;
+    const last = volleyball.score.team2.points.length - 1;
     volleyball.score.team2.points[last] += 1;
   }
-  const last1 = volleyball.score.score_sequence.length() - 1;
+  const last1 = volleyball.score.score_sequence.length - 1;
 
   volleyball.score.score_sequence[last1].push(req.body.teamname);
 
@@ -66,7 +66,7 @@ router.put("/addpoint", async (req, res) => {
 });
 
 router.put("/undopoint", async (req, res) => {
-  const volleyball = await Football.findOne({ _id: req.body.id });
+  const volleyball = await Volleyball.findOne({ _id: req.body.id });
   const last = volleyball.score.team1.points.length() - 1;
 
   if (
@@ -96,28 +96,8 @@ router.put("/undopoint", async (req, res) => {
   }
 });
 
-router.put("/startgame", async (req, res) => {
-  const volleyball = await Football.findOne({ _id: req.body._id });
-  volleyball.status = "live";
-  const a = new Array();
-  volleyball.score.score_sequence.push(a);
-
-  volleyball.score.team1.points.push(0);
-  volleyball.score.team2.points.push(0);
-
-  const date_ob = new Date();
-  volleyball.date = date_ob;
-
-  try {
-    const savedvolleyball = await volleyball.save();
-    res.json(savedvolleyball);
-  } catch (err) {
-    res.status(400).send(err);
-  }
-});
-
 router.put("/startnewset", async (req, res) => {
-  const volleyball = await Football.findOne({ _id: req.body._id });
+  const volleyball = await Volleyball.findOne({ _id: req.body._id });
   const a = new Array();
   volleyball.score.score_sequence.push(a);
 
@@ -144,7 +124,7 @@ router.put("/startnewset", async (req, res) => {
 });
 
 router.put("/finish", async (req, res) => {
-  const volleyball = await Football.findOne({ _id: req.body._id });
+  const volleyball = await Volleyball.findOne({ _id: req.body._id });
   volleyball.status = "finished";
   const a = volleyball.score.team1.set;
   const b = volleyball.score.team2.set;
@@ -171,7 +151,7 @@ router.get("/getmatchesByscorer/:id", async (req, res) => {
 
 router.get("/getmatch/:id", async (req, res) => {
   try {
-    const volleyballmatch = await Football.findOne({ _id: req.params.id });
+    const volleyballmatch = await Volleyball.findOne({ _id: req.params.id });
     res.status(200).send(volleyballmatch);
   } catch (err) {
     res.status(400).send(err);

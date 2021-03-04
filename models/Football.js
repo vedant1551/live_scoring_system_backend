@@ -1,347 +1,290 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const footballschema = new mongoose.Schema({
-
-
-    title: {
-
+  title: {
     type: String,
     required: true,
     max: 255,
-    min: 3
+    min: 3,
+  },
 
-    },
-
-
-    start_time: {
-
+  start_time: {
     type: String,
     required: true,
     max: 255,
-    min: 6
-
-    },
-    half: {
-
-        type: Number,
-        required: true,
-        min: 1,
-        max: 3
-    
-        },
-    game_time: {
-
+    min: 6,
+  },
+  half: {
+    type: Number,
+    required: false,
+    min: 1,
+    max: 3,
+  },
+  game_time: {
     type: Number,
     required: true,
     min: 20,
-    max: 90
+    max: 90,
+  },
+  result: {
+    type: String,
+  },
+  scorer_id: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: Date,
+    required: true,
+  },
 
+  city: {
+    type: String,
+    required: true,
+    min: 3,
+    max: 25,
+  },
+
+  venue: {
+    type: String,
+    required: true,
+    min: 3,
+    max: 55,
+  },
+  status: {
+    type: String,
+    required: true,
+    min: 3,
+    max: 15,
+  },
+  no_of_substitutes: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+
+  team1: {
+    name: {
+      type: String,
+      required: true,
+      min: 3,
+      max: 15,
     },
-    result:{
 
-          type: String 
-
-    },
-    scorer_id:{
-
+    squad: [
+      {
         type: String,
-        required: true 
+      },
+    ],
 
-    },
-    date: {
-
-        type: Date,
-        required: true,
-        
-    
-    },
-    
-    city: {
-
+    playing11: [
+      {
         type: String,
-        required: true,
-        min: 3,
-        max: 25
-
-    },
-
-    
-    venue: {
-
+      },
+    ],
+    substitutes: [
+      {
         type: String,
-        required: true,
-        min: 3,
-        max: 55
+      },
+    ],
 
+    headcoach: {
+      type: String,
+      min: 3,
+      max: 15,
     },
-    status: {
+  },
 
+  team2: {
+    name: {
+      type: String,
+      required: true,
+      min: 3,
+      max: 15,
+    },
+
+    squad: [
+      {
         type: String,
-        required: true,
-        min: 3,
-        max: 15
+      },
+    ],
 
+    playing11: [
+      {
+        type: String,
+      },
+    ],
+    substitutes: [
+      {
+        type: String,
+      },
+    ],
+
+    headcoach: {
+      type: String,
+      min: 3,
+      max: 15,
     },
-    no_of_substitutes:{
+  },
 
-            type: Number,
-            required: true,
-            min:1
-            
+  score: {
+    team1: {
+      goal: {
+        type: Number,
+      },
 
-    },
-
-    team1:{
-
-        name: {
-
-            type: String,
-            required: true,
-            min: 3,
-            max: 15
-    
+      times: [
+        {
+          type: Number,
         },
-
-        squad: [{
-
-               type: String
-
-
-        }],
-        
-        playing11: [{
-
-            type: String
-
-
-        }],
-        substitutes: [{
-
-            type: String
-
-
-        }],
-
-        headcoach: {
-
-            type: String,
-            min: 3,
-            max: 15
-    
-        }
-
-
-
+      ],
+      scorer: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
     },
 
-    team2:{
+    team2: {
+      goal: {
+        type: Number,
+      },
 
-        name: {
-
-            type: String,
-            required: true,
-            min: 3,
-            max: 15
-    
+      times: [
+        {
+          type: Number,
         },
-
-        squad: [{
-
-               type: String
-
-
-        }],
-        
-        playing11: [{
-
-            type: String
-
-
-        }],
-        substitutes: [{
-
-            type: String
-
-
-        }],
-
-        headcoach: {
-
-            type: String,
-            min: 3,
-            max: 15
-    
-        }
-
-
-
+      ],
+      scorer: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
     },
 
-    score:{
+    score_sequence: [
+      {
+        type: String,
+      },
+    ],
+  },
 
-        
-        team1:{
-
-            goal:{
-                    type: Number
-            },
-
-            times:[{
-                type: Number
-
-            }],
-            scorer:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
+  substitutions: {
+    team1: {
+      times: [
+        {
+          type: Number,
         },
+      ],
 
-        team2:{
-
-            
-            goal:{
-                type: Number
-             },
-
-            times:[{
-                type: Number
-
-            }],
-            scorer:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
+      in: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
         },
+      ],
 
-        score_sequence:[{
-            type:String
-        }]
-
+      out: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
     },
 
-    substitutions:{
-
-         
-        team1:{
-
-            times:[{
-                type: Number
-
-            }],
-
-            in:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }],
-
-            out:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
+    team2: {
+      times: [
+        {
+          type: Number,
         },
+      ],
 
-        team2:{
+      in: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
 
-            times:[{
-                type: Number
+      out: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
+    },
+  },
 
-            }],
-            
-            in:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }],
-
-            out:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
-        }       
-
+  yellow_card: {
+    team1: {
+      times: [
+        {
+          type: Number,
+        },
+      ],
+      player: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
     },
 
-    yellow_card:{
-
-        team1:{
-
-            times:[{
-                type: Number
-
-            }],
-            player:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
+    team2: {
+      times: [
+        {
+          type: Number,
         },
+      ],
+      player: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
+    },
+  },
 
-        team2:{
-
-            times:[{
-                type: Number
-
-            }],
-            player:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
-        }
-
+  red_card: {
+    team1: {
+      times: [
+        {
+          type: Number,
+        },
+      ],
+      player: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
     },
 
-    red_card:{
-
-        team1:{
-
-            times:[{
-                type: Number
-
-            }],
-            player:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
+    team2: {
+      times: [
+        {
+          type: Number,
         },
-
-        team2:{
-
-            times:[{
-                type: Number
-
-            }],
-            player:[{
-
-                type: String,
-                min:3,
-                max:15    
-            }]
-        }
-
-    }
-
-
-
-
-
-    
-
-
+      ],
+      player: [
+        {
+          type: String,
+          min: 3,
+          max: 15,
+        },
+      ],
+    },
+  },
 });
 
-module.exports = mongoose.model('Football',footballschema);
+module.exports = mongoose.model("Football", footballschema);
