@@ -4,7 +4,7 @@ const Scorer = require("../models/Scorer");
 
 router.post("/initiate", async (req, res) => {
   const football = new Football(req.body);
-
+  
   football.status = "not_started";
   try {
     const savedfootball = await football.save();

@@ -24,15 +24,13 @@ router.post("/initiate", async (req, res) => {
 
 router.put("/startgame", async (req, res) => {
   const volleyball = await Volleyball.findOne({ _id: req.body._id });
+  
   volleyball.status = "live";
-  const a = new Array();
-  volleyball.score.score_sequence.push(a);
-
   volleyball.score.team1.points.push(0);
   volleyball.score.team2.points.push(0);
   volleyball.score.team1.set = 0;
   volleyball.score.team2.set = 0;
-
+  volleyball.score.score_sequence = [[]];
   const date_ob = new Date();
   volleyball.date = date_ob;
 
@@ -45,20 +43,38 @@ router.put("/startgame", async (req, res) => {
 });
 
 router.put("/addpoint", async (req, res) => {
-  const volleyball = await Volleyball.findOne({ _id: req.body._id });
-  if (req.body.teamname == volleyball.team1.name) {
-    const last = volleyball.score.team1.points.length - 1;
-    volleyball.score.team1.points[last] += 1;
+  let volleyball = await Volleyball.findOne({ _id: req.body._id });
+  const a = volleyball.score.team1.points;
+  const c = volleyball.score.team2.points;
+  
+    if (req.body.teamname == volleyball.team1.name) {
+    let last = volleyball.score.team1.points.length - 1;
+    a[last] += 1;
+    volleyball.score.team1.points = [];
+    volleyball.score.team1.points = a.slice();
+    
   } else {
     const last = volleyball.score.team2.points.length - 1;
-    volleyball.score.team2.points[last] += 1;
+    c[last] += 1;
+    volleyball.score.team2.points = [];
+    volleyball.score.team2.points = c.slice();
+  
   }
-  const last1 = volleyball.score.score_sequence.length - 1;
+  
+  let last1 = volleyball.score.score_sequence.length - 1;
+  
+  const b = volleyball.score.score_sequence;
+  
+  volleyball.score.score_sequence = [[]];
+  console.log(b);
+  b[last1].push(req.body.teamname);
+  console.log(b);
 
-  volleyball.score.score_sequence[last1].push(req.body.teamname);
-
-  try {
+  volleyball.score.score_sequence = b;
+  try{
+    console.log(volleyball.score.score_sequence);
     const savedvolleyball = await volleyball.save();
+    
     res.status(200).json(savedvolleyball);
   } catch (err) {
     res.status(400).send(err);
@@ -66,9 +82,11 @@ router.put("/addpoint", async (req, res) => {
 });
 
 router.put("/undopoint", async (req, res) => {
-  const volleyball = await Volleyball.findOne({ _id: req.body.id });
-  const last = volleyball.score.team1.points.length() - 1;
+  const volleyball = await Volleyball.findOne({ _id: req.body._id });
 
+
+  const last = volleyball.score.team1.points.length - 1;
+    
   if (
     volleyball.score.team1.points[last] == 0 &&
     volleyball.score.team1.points[last] == 0
@@ -76,16 +94,29 @@ router.put("/undopoint", async (req, res) => {
     res.status(422).send("Both teams points are 0 as of now...!");
   }
 
-  const last1 = volleyball.score.score_sequence.length() - 1;
-  volleyball.score.score_sequence[last1].push(req.body.teamname);
-  const teamname = volleyball.score.score_sequence.pop();
+  const c = volleyball.score.score_sequence;
+  const teamname = c[last].pop();
+  volleyball.score.score_sequence = [[]];
+  console.log(c);
+  volleyball.score.score_sequence = c;
+ 
 
   if (teamname == volleyball.team1.name) {
-    const last = volleyball.score.team1.points.length() - 1;
-    volleyball.score.team1.points[last] -= 1;
+
+    const a = volleyball.score.team1.points;
+    volleyball.score.team1.points = [];
+    const last = a.length - 1;
+    a[last] -= 1;
+    volleyball.score.team1.points = a.slice();
+  
   } else {
-    const last = volleyball.score.team2.points.length() - 1;
-    volleyball.score.team2.points[last] -= 1;
+   
+    const a = volleyball.score.team2.points;
+    volleyball.score.team2.points = [];
+    const last = a.length - 1;
+    a[last] -= 1;
+    volleyball.score.team2.points = a.slice();
+ 
   }
 
   try {
@@ -98,9 +129,11 @@ router.put("/undopoint", async (req, res) => {
 
 router.put("/startnewset", async (req, res) => {
   const volleyball = await Volleyball.findOne({ _id: req.body._id });
-  const a = new Array();
-  volleyball.score.score_sequence.push(a);
-
+   const a = volleyball.score.score_sequence;
+   const b = [];
+   a.push(b);
+   volleyball.score.score_sequence = [[]];
+   volleyball.score.score_sequence = a;
   const teamname = req.body.teamname;
 
   if (teamname == volleyball.team1.name) {

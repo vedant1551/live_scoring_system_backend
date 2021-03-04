@@ -92,32 +92,18 @@ const volleyballschema = new mongoose.Schema({
       set: {
         type: Number,
       },
-      points: [
-        {
-          type: Number,
-        },
-      ],
+      points: [Number]
     },
 
     team2: {
       set: {
         type: Number,
       },
-      points: [
-        {
-          type: Number,
-        },
-      ],
+      points: [Number]
     },
 
-    score_sequence: [
-      [
-        {
-          type: String,
-        },
-      ],
-    ],
-  },
+    score_sequence: [[String]]
+  }
 });
 
 module.exports = mongoose.model("Volleyball", volleyballschema);
