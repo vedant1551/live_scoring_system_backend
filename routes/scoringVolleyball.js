@@ -208,4 +208,13 @@ router.delete("/deletematch/:id", async (req, res) => {
   }
 });
 
+router.get("/getallmatches", async (req, res) => {
+  try {
+    const volleyballmatches = await Volleyball.find().sort({ _id : -1});
+    res.status(200).send(volleyballmatches);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
 module.exports = router;
