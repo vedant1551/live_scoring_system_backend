@@ -127,13 +127,9 @@ router.put("/undopoint", async (req, res) => {
   }
 });
 
-router.put("/startnewset", async (req, res) => {
+router.put("/finishset", async (req, res) => {
   const volleyball = await Volleyball.findOne({ _id: req.body._id });
-   const a = volleyball.score.score_sequence;
-   const b = [];
-   a.push(b);
-   volleyball.score.score_sequence = [[]];
-   volleyball.score.score_sequence = a;
+  const a = volleyball.score.score_sequence;
   const teamname = req.body.teamname;
 
   if (teamname == volleyball.team1.name) {
@@ -142,12 +138,24 @@ router.put("/startnewset", async (req, res) => {
     volleyball.score.team2.set += 1;
   }
 
+  
+  if(volleyball.score.team1.set == 2 || volleyball.score.team2.set == 2)
+  {
+
+    volleyball.status = "finished";
+
+  }
+  else
+  {
+  const b = [];
+  a.push(b);
+  volleyball.score.score_sequence = [[]];
+  volleyball.score.score_sequence = a;
+ 
   volleyball.score.team1.points.push(0);
   volleyball.score.team2.points.push(0);
-
-  const date_ob = new Date();
-  volleyball.date = date_ob;
-
+  }
+  
   try {
     const savedvolleyball = await volleyball.save();
     res.json(savedvolleyball);
