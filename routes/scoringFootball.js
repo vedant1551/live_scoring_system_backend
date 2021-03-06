@@ -215,4 +215,14 @@ router.get("/gettime", (req, res) => {
   res.status(200).send(myDate);
 });
 
+router.get("/getallmatches", async (req, res) => {
+  try {
+    const footballmatches = await Football.find().sort({ _id : -1});
+    res.status(200).send(footballmatches);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+
 module.exports = router;
