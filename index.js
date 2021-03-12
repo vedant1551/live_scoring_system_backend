@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 //import routes
-const authRoute = require("./routes/auth");
+const authAdminRoute = require("./routes/auth");
+const authRoute = require("./routes/authAdmin");
 const scoringFootballRoute = require("./routes/scoringFootball");
 const scoringVolleyballRoute = require("./routes/scoringVolleyball");
 //connect DB
@@ -25,6 +26,7 @@ app.use(express.json());
 //route middleware
 
 app.use("/api/scorer", authRoute);
+app.use("/api/admin", authAdminRoute);
 app.use("/api/scoring/football", scoringFootballRoute);
 app.use("/api/scoring/volleyball",scoringVolleyballRoute);
 

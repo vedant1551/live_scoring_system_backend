@@ -11,7 +11,12 @@ const scorerschema = new mongoose.Schema({
 
     },
 
+    verified: {
 
+        type: Boolean,
+        required: true,
+        },
+    
     email: {
 
     type: String,

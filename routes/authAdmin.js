@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const Scorer = require("../models/Scorer");
+const Scorer = require("../models/Admin");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
@@ -8,54 +8,46 @@ router.get("/", (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const scorer1 = await Scorer.findOne({ email: req.body.email });
-  if (scorer1) return res.status(404).send("User already exist!");
+  const admin1 = await Scorer.findOne({ email: req.body.email });
+  if (admin1) return res.status(404).send("User already exist!");
 
-  const scorer = new Scorer(req.body);
+  const admin = new Scorer(req.body);
 
   try {
-    const savedScorer = await scorer.save();
-    res.send(savedScorer);
+    const savedAdmin = await admin.save();
+    res.send(savedAdmin);
   } catch (err) {
     res.status(400).send(err);
   }
 });
 
 router.post("/login", async (req, res) => {
-  const scorer = await Scorer.findOne({ email: req.body.email });
-  if (!scorer) return res.status(404).json("User does not exist!");
+  const admin = await Scorer.findOne({ email: req.body.email });
+  if (!admin) return res.status(404).json("User does not exist!");
 
-  if (req.body.password != scorer.password)
+  if (req.body.password != admin.password)
     return res.status(422).json("Password is not correct!");
 
-  if(scorer.verified == false)
-  return res.status(422).json("Password is not correct!");
   
   //creat and assign jwt
-  const token = jwt.sign({ _id: scorer._id }, "unvunv");
+  const token = jwt.sign({ _id: admin._id }, "unvunv");
   const demo_obj = {
     "auth-token": token,
-    scorer: scorer,
+    admin: admin,
   };
   res.json(demo_obj);
 });
 
-router.get("/getscorer/:id", async (req, res) => {
-  const scorer = await Scorer.findOne({ _id: req.params.id });
-  if (!scorer) return res.status(404).send("User does not exist!");
-  res.send(scorer);
-});
-
 router.post("/forgotpassword", async (req, res) => {
-  const scorer = await Scorer.findOne({ email: req.body.email });
-  if (!scorer) return res.status(404).send("User does not exist!");
+  const admin = await Scorer.findOne({ email: req.body.email });
+  if (!admin) return res.status(404).send("Admin does not exist!");
 
   var digits = "0123456789";
   let otp = "";
   for (let i = 0; i < 6; i++) {
     otp += digits[Math.floor(Math.random() * 10)];
   }
-  var message1 = "Your otp for Scoring system is " + otp;
+  var message1 = "Hello Admin, Your otp for Scoring system is " + otp;
 
   var transporter = nodemailer.createTransport({
     service: "gmail",
@@ -82,15 +74,15 @@ router.post("/forgotpassword", async (req, res) => {
 });
 
 router.put("/changepassword", async (req, res) => {
-  const scorer = await Scorer.findOne({ email: req.body.email });
-  if (!scorer) return res.status(404).send("User does not exist!");
+  const admin = await Scorer.findOne({ username: req.body.username });
+  if (!admin) return res.status(404).send("Admin does not exist!");
 
-  scorer.password = req.body.password;
+  admin.password = req.body.password;
   //res.header("otp", otp).send();
 
   try {
-    const savedScorer = await scorer.save();
-    res.send(savedScorer);
+    const savedAdmin = await admin.save();
+    res.send(savedAdmin);
   } catch (err) {
     res.status(400).send(err);
   }
