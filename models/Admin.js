@@ -1,22 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const adminschema = new mongoose.Schema({
-
-    username: {
-
+  email: {
     type: String,
     required: true,
     max: 255,
-    min: 3
-    },
+    min: 3,
+  },
 
-    password: {
-
+  password: {
     type: String,
     required: true,
     min: 6,
-    max: 255
-
-    }
+    max: 255,
+  },
 });
 
-module.exports = mongoose.model('admin',adminschema);
+module.exports = mongoose.model("admin", adminschema);
