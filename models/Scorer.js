@@ -1,47 +1,36 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const scorerschema = new mongoose.Schema({
-
-
-    username: {
-
+  username: {
     type: String,
     required: true,
     max: 255,
-    min: 3
+    min: 3,
+  },
 
-    },
+  verified: {
+    type: Boolean,
+    required: false,
+  },
 
-    verified: {
-
-        type: Boolean,
-        required: true,
-        },
-    
-    email: {
-
+  email: {
     type: String,
     required: true,
     max: 255,
-    min: 6
+    min: 6,
+  },
 
-    },
-
-    password: {
-
+  password: {
     type: String,
     required: true,
     min: 6,
-    max: 255
-
-    },
-    mobileno: {
-
-        type: String,
-        required: true,
-        max: 10,
-        min:10
-    
-        }
+    max: 255,
+  },
+  mobileno: {
+    type: String,
+    required: true,
+    max: 10,
+    min: 10,
+  },
 });
 
-module.exports = mongoose.model('scorer',scorerschema);
+module.exports = mongoose.model("scorer", scorerschema);
