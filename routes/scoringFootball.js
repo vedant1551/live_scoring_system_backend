@@ -4,8 +4,9 @@ const Scorer = require("../models/Scorer");
 
 router.post("/initiate", async (req, res) => {
   const football = new Football(req.body);
-  
-  football.status = "not_started";
+
+  football.status = "upcoming";
+
   try {
     const savedfootball = await football.save();
     res.json(savedfootball);
@@ -15,7 +16,7 @@ router.post("/initiate", async (req, res) => {
 });
 
 router.put("/startgame", async (req, res) => {
-  const football = await Volleyball.findOne({ _id: req.body._id });
+  const football = await Football.findOne({ _id: req.body._id });
   football.status = "live";
 
   football.team1.playing11 = req.body.team1_playing11;
@@ -217,12 +218,11 @@ router.get("/gettime", (req, res) => {
 
 router.get("/getallmatches", async (req, res) => {
   try {
-    const footballmatches = await Football.find().sort({ _id : -1});
+    const footballmatches = await Football.find().sort({ _id: -1 });
     res.status(200).send(footballmatches);
   } catch (err) {
     res.status(400).send(err);
   }
 });
-
 
 module.exports = router;

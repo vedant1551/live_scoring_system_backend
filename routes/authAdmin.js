@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Admin = require("../models/Admin");
+const Scorer = require("../models/Scorer");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
@@ -87,4 +88,20 @@ router.put("/changepassword", async (req, res) => {
   }
 });
 
+router.put("/scorerverification", async (req, res) => {
+  const scorer = await Scorer.findOne({ _id: req.body._id });
+  if (!scorer) return res.status(404).send("Scorer does not exist!");
+  if (req.body.status == "accept") {
+    scorer.verified = true;
+    const savedscorer = await scorer.save();
+    res.send(savedscorer);
+  } else if (req.body.status == "decline") {
+    try {
+      await Scorer.deleteOne({ _id: req.body._id });
+      res.send("Deleted succesfully!!");
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  }
+});
 module.exports = router;

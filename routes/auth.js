@@ -12,6 +12,7 @@ router.post("/register", async (req, res) => {
   if (scorer1) return res.status(404).send("User already exist!");
 
   const scorer = new Scorer(req.body);
+  scorer.verified = false;
 
   try {
     const savedScorer = await scorer.save();
@@ -28,9 +29,9 @@ router.post("/login", async (req, res) => {
   if (req.body.password != scorer.password)
     return res.status(422).json("Password is not correct!");
 
-  if(scorer.verified == false)
-  return res.status(422).json("Password is not correct!");
-  
+  if (scorer.verified == false)
+    return res.status(425).json("User not verified ");
+
   //creat and assign jwt
   const token = jwt.sign({ _id: scorer._id }, "unvunv");
   const demo_obj = {
@@ -91,6 +92,15 @@ router.put("/changepassword", async (req, res) => {
   try {
     const savedScorer = await scorer.save();
     res.send(savedScorer);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+router.get("/getallscorers", async (req, res) => {
+  try {
+    const scorers = await Scorer.find();
+    res.status(200).send(scorers);
   } catch (err) {
     res.status(400).send(err);
   }
