@@ -90,7 +90,9 @@ router.put("/changepassword", async (req, res) => {
 
 router.put("/scorerverification", async (req, res) => {
   const scorer = await Scorer.findOne({ _id: req.body._id });
+
   if (!scorer) return res.status(404).send("Scorer does not exist!");
+
   if (req.body.status == "accept") {
     scorer.verified = true;
     const savedscorer = await scorer.save();
@@ -104,4 +106,5 @@ router.put("/scorerverification", async (req, res) => {
     }
   }
 });
+
 module.exports = router;

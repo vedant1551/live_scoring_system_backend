@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
   //creat and assign jwt
   const token = jwt.sign({ _id: scorer._id }, "unvunv");
   const demo_obj = {
-    "auth-token": token,
+    token: token,
     scorer: scorer,
   };
   res.json(demo_obj);
