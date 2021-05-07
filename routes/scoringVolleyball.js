@@ -66,13 +66,10 @@ router.put("/addpoint", async (req, res) => {
   const b = volleyball.score.score_sequence;
   
   volleyball.score.score_sequence = [[]];
-  console.log(b);
   b[last1].push(req.body.teamname);
-  console.log(b);
-
+  
   volleyball.score.score_sequence = b;
   try{
-    console.log(volleyball.score.score_sequence);
     const savedvolleyball = await volleyball.save();
     
     res.status(200).json(savedvolleyball);
@@ -97,7 +94,6 @@ router.put("/undopoint", async (req, res) => {
   const c = volleyball.score.score_sequence;
   const teamname = c[last].pop();
   volleyball.score.score_sequence = [[]];
-  console.log(c);
   volleyball.score.score_sequence = c;
  
 
